@@ -1,0 +1,24 @@
+{
+  "name": "football_bot",
+  "version": "1.0.0",
+  "description": "Twitter Bot for posting today's fixtures and results",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
+  },
+  "keywords": [
+    "football",
+    "soccer",
+    "twitter",
+    "bot",
+    "update",
+    "results"
+  ],
+  "author": "Brian Lu",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "twit": "^2.2.11"
+  }
+}
