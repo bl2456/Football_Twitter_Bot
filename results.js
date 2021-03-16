@@ -37,8 +37,8 @@ const getData = async (league,season,date) =>{
 }
 
 const getFixtures = async() => {
-    //let todayDate = new Date().toISOString().slice(0,10);
-    let todayDate ='2021-03-10';
+    let todayDate = new Date().toISOString().slice(0,10);
+    //let todayDate ='2021-03-10';
     console.log('inside getFixtures');
     prem_fixtures = await getData(prem, season, todayDate);
     //console.log(url_fixtures);

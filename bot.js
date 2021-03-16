@@ -157,7 +157,7 @@ async function runBot() {
             console.log('inside if');
             await fixtures();
         }
-        if (new Date().getHours() === 23 && new Date().getMinutes() === 0 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+        if (new Date().getHours() === 23 && new Date().getMinutes() === 30 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
             console.log('inside 2nd if');
             await results();
         }
