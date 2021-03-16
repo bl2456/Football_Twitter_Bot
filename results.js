@@ -10,7 +10,12 @@ const prem = 39;
 
 const season = 2020;
 
-let T = new Twit(config);
+let T = new Twit({
+    consumer_key:         process.env['CONSUMER_KEY'],
+    consumer_secret:      process.env['CONSUMER_SECRET'],
+    access_token:         process.env['ACCESS_TOKEN'],
+    access_token_secret:  process.env['ACCESS_TOKEN_SECRET']
+});
 
 let tweet = '';
 
@@ -18,7 +23,10 @@ const getData = async (league,season,date) =>{
     console.log('inside getData');
     let data = await fetch(`https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}&date=${date}&timezone=America/New_York`, {
         method: "GET",
-        headers: footballConfig
+        headers: {
+            "x-apisports-host": process.env['APISPORTS_HOST'],
+            "x-apisports-key": process.env['APISPORTS_KEY']
+        }
     });
     console.log('made get request');
     let res = await data.json();
