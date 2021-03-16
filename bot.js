@@ -1,8 +1,8 @@
 const Twit = require('twit')
-const footballConfig = require('./api-football-config.js');
+//const footballConfig = require('./api-football-config.js');
 const fetch = require("node-fetch");
 //`${game.teams.home.name} ${game.score.fulltime.home}-${game.score.fulltime.away} ${game.teams.away.name}`
-const config = require('./config.js');
+//const config = require('./config.js');
 
 const ucl = 2;
 const uel = 3;
@@ -10,7 +10,12 @@ const prem = 39;
 
 const season = 2020;
 
-let T = new Twit(config);
+let T = new Twit({
+    consumer_key:         process.env['CONSUMER_KEY'],
+    consumer_secret:      process.env['CONSUMER_SECRET'],
+    access_token:         process.env['ACCESS_TOKEN'],
+    access_token_secret:  process.env['ACCESS_TOKEN_SECRET']
+});
 
 let tweet = '';
 
@@ -18,7 +23,10 @@ const getData = async (league,season,date) =>{
     console.log('inside getData');
     let data = await fetch(`https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}&date=${date}&timezone=America/New_York`, {
         method: "GET",
-        headers: footballConfig
+        headers: {
+            "x-apisports-host": process.env['APISPORTS_HOST'],
+            "x-apisports-key": process.env['APISPORTS_KEY']
+        }
     });
     console.log('made get request');
     let res = await data.json();
@@ -81,8 +89,8 @@ function addZero(i) {
 }
 
 const getFixtures = async() => {
-    //let todayDate = new Date().toISOString().slice(0,10);
-    let todayDate ='2021-03-13';
+    let todayDate = new Date().toISOString().slice(0,10);
+    //let todayDate ='2021-03-13';
     console.log('inside getFixtures');
     prem_fixtures = await getData(prem, season, todayDate);
     //console.log(url_fixtures);
@@ -125,11 +133,11 @@ const results = async() =>{
 
 async function runBot() {
     while (true){
-        if (new Date().getHours() === 15 && new Date().getMinutes() === 15 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+        if (new Date().getHours() === 7 && new Date().getMinutes() === 0 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
             console.log('inside if');
             await fixtures();
         }
-        if (new Date().getHours() === 15 && new Date().getMinutes() === 30 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+        if (new Date().getHours() === 19 && new Date().getMinutes() === 00 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
             console.log('inside 2nd if');
             await results();
         }
