@@ -40,7 +40,7 @@ async function tweetFixtures(games){
         tweet = '';
         let league = game.league.name;
         let time = new Date(game.fixture.date);
-        let hour = addZero(time.getHours());
+        let hour = addZero(time.getHours()-4);
         let minute = addZero(time.getMinutes());
         let referee = game.fixture.referee;
         let stadium = game.fixture.venue.name;
@@ -133,11 +133,11 @@ const results = async() =>{
 
 async function runBot() {
     while (true){
-        if (new Date().getHours() === 7 && new Date().getMinutes() === 0 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+        if (new Date().getHours() === 11 && new Date().getMinutes() === 7 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
             console.log('inside if');
             await fixtures();
         }
-        if (new Date().getHours() === 19 && new Date().getMinutes() === 00 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
+        if (new Date().getHours() === 23 && new Date().getMinutes() === 0 && new Date().getSeconds() === 0 && new Date().getMilliseconds() === 0) {
             console.log('inside 2nd if');
             await results();
         }
