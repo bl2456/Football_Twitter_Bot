@@ -1,8 +1,8 @@
 const Twit = require('twit')
-const footballConfig = require('./api-football-config.js');
+//const footballConfig = require('./api-football-config.js');
 const fetch = require("node-fetch");
 //`${game.teams.home.name} ${game.score.fulltime.home}-${game.score.fulltime.away} ${game.teams.away.name}`
-const config = require('./config.js');
+//const config = require('./config.js');
 
 const ucl = 2;
 const uel = 3;
