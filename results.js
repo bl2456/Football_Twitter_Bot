@@ -3,6 +3,8 @@ const Twit = require('twit')
 const fetch = require("node-fetch");
 //`${game.teams.home.name} ${game.score.fulltime.home}-${game.score.fulltime.away} ${game.teams.away.name}`
 //const config = require('./config.js');
+const fs = require('fs');
+
 
 const ucl = 2;
 const uel = 3;
@@ -35,8 +37,8 @@ const getData = async (league,season,date) =>{
 }
 
 const getFixtures = async() => {
-    let todayDate = new Date().toISOString().slice(0,10);
-    //let todayDate ='2021-03-13';
+    //let todayDate = new Date().toISOString().slice(0,10);
+    let todayDate ='2021-03-10';
     console.log('inside getFixtures');
     prem_fixtures = await getData(prem, season, todayDate);
     //console.log(url_fixtures);
@@ -49,13 +51,32 @@ const getFixtures = async() => {
 }
 
 const tweetResults = async (games, leagueName, hashtag) =>{
+    let filename = './images/';
     tweet =  `${leagueName} Full-Time Results: \n \n`;
     games.forEach(game => {
         tweet += `${game.teams.home.name} ${game.score.fulltime.home}-${game.score.fulltime.away} ${game.teams.away.name}\n`;
     });
     tweet += `\n#${hashtag}`;
     console.log(tweet);
-    T.post('statuses/update', { status: tweet }, tweeted);
+    if (leagueName == 'English Premier League'){
+        filename += 'premierLeague.jpg';
+    }
+    else if (leagueName == 'Uefa Champions League'){
+        filename += 'ucl.jpg';
+    }
+    else if (leagueName == 'Uefa Europa League'){
+        filename += 'uel.jpg';
+    }
+    let encoded_img = fs.readFileSync(filename, {encoding: 'base64'});
+    T.post('media/upload', {media_data: encoded_img}, (error, data, response) => {
+        let mediaIdStr = data.media_id_string;
+        let altText = `This is a picture of ${leagueName}`
+        let meta_params = {media_id: mediaIdStr, altText: {text: altText}};
+        T.post('media/metadata/create', meta_params, (error, data, response) => {
+          let tweet_params = {status: tweet, media_ids: mediaIdStr};
+          T.post('statuses/update', tweet_params, tweeted);
+        });
+    });
     await delay(60000);
 }
 
