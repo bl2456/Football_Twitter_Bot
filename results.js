@@ -70,8 +70,8 @@ const tweetResults = async (games, leagueName, hashtag) =>{
     let encoded_img = fs.readFileSync(filename, {encoding: 'base64'});
     T.post('media/upload', {media_data: encoded_img}, (error, data, response) => {
         let mediaIdStr = data.media_id_string;
-        let altText = `This is a picture of ${leagueName}`
-        let meta_params = {media_id: mediaIdStr, altText: {text: altText}};
+        let altText = `This is a picture of ${leagueName}`;
+        let meta_params = {media_id: mediaIdStr, alt_text: {text: altText}};
         T.post('media/metadata/create', meta_params, (error, data, response) => {
           let tweet_params = {status: tweet, media_ids: mediaIdStr};
           T.post('statuses/update', tweet_params, tweeted);
